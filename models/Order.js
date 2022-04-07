@@ -11,10 +11,10 @@ const Order = db.define('Vendas_Pedidos', {
 
     Data: {
         type: Sequelize.DATE,
-        allowNull: false,
+        allowNull: true,
     },
 
-    cliente: {
+    Cliente: {
         type: Sequelize.STRING,
         allowNull: false,
     },
@@ -26,7 +26,7 @@ const Order = db.define('Vendas_Pedidos', {
 
     ValorTotal: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
     },
 
     Vendedor: {
@@ -39,9 +39,14 @@ const Order = db.define('Vendas_Pedidos', {
         allowNull: false,
     },
 
-    Observações: {
+    CNPJ_Empresa: {
         type: Sequelize.STRING,
         allowNull: false,
+    },
+
+    Observações: {
+        type: Sequelize.STRING,
+        allowNull: true,
     },
 
 });

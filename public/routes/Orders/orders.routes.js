@@ -1,8 +1,54 @@
 const express = require ('express');
 require('dotenv').config();
-
+const yup = require('yup');
 const Order = require('../../../models/Order');
 const router = express.Router();
+
+//=======================================================
+// Cadastrar Cliente
+//=======================================================
+
+router.post("/add", async (req, res) => {
+    var dados = req.body;
+
+ //   console.log(req.body);
+
+    const schema = yup.object().shape({
+     //   CNPJ_Empresa: yup.string("Erro: Necessário preencher o campo cnpj da empresa!")
+     //       .required("Erro: Necessário preencher o campo nome o cnpj da empresa!"),         
+        CNPJ: yup.string("Erro: Necessário preencher o campo cnpj!")
+            .required("Erro: Necessário preencher o campo CNPJ!")         
+            .min(14, "Erro: O cnpj deve ter no mínimo 14 caracteres!"),
+    //    Cliente: yup.string("Erro: Necessário preencher o campo nome!")
+     //       .required("Erro: Necessário preencher o campo nome do cliente!"),
+     //   Vendedor: yup.string("Erro: Necessário preencher o campo vendedor!")
+     //       .required("Erro: Necessário preencher o campo vendedor do cliente!"),                                
+    });
+
+    try {
+        await schema.validate(dados);
+    } catch (err) {
+        return res.status(400).json({
+            erro: true,
+            mensagem: err.errors
+        });
+    }
+    console.log(dados);
+
+    await Order.create(dados)
+        .then(() => {
+            return res.json({
+                erro: false,
+                mensagem: "Pedido de venda cadastrado com sucesso!"
+            });
+        }).catch(() => {
+            return res.status(400).json({
+                erro: true,
+                mensagem: "Erro: Não foi possivel cadastrar esse pedido de venda!"
+            });
+        });
+});
+
 
 //========================================================
 // Buscar todos os pedidos de vendas

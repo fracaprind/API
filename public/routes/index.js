@@ -13,6 +13,7 @@ const routes = Router();
 
 routes.use('/login', loginRouter);
 routes.use('/orders', ordersRouter);
+routes.use('/order', ordersRouter);
 routes.use('/clients', clientsRouter);
 routes.use('/client', clientsRouter);
 routes.use('/products', productsRouter);

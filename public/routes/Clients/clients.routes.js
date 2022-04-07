@@ -140,7 +140,7 @@ router.post("/add", async (req, res) => {
 });
 
 //=======================================================
-// Alterar cadastro do liente
+// Alterar cadastro do cliente
 //=======================================================
 
 router.post("/edit", async (req, res) => {
