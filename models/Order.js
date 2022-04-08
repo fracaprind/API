@@ -19,6 +19,11 @@ const Order = db.define('Vendas_Pedidos', {
         allowNull: false,
     },
 
+    Nome_Fantasia: {
+        type: Sequelize.STRING,
+        allowNull: false,
+    },    
+
     Status: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -45,6 +50,21 @@ const Order = db.define('Vendas_Pedidos', {
     },
 
     Observações: {
+        type: Sequelize.STRING,
+        allowNull: true,
+    },
+
+    Contato: {
+        type: Sequelize.STRING,
+        allowNull: true,
+    },
+
+    CondPagto: {
+        type: Sequelize.STRING,
+        allowNull: true,
+    },
+
+    UUid: {
         type: Sequelize.STRING,
         allowNull: true,
     },

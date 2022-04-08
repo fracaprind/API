@@ -5,7 +5,7 @@ const Order = require('../../../models/Order');
 const router = express.Router();
 
 //=======================================================
-// Cadastrar Cliente
+// Cadastrar pedido de venda
 //=======================================================
 
 router.post("/add", async (req, res) => {
@@ -19,10 +19,10 @@ router.post("/add", async (req, res) => {
         CNPJ: yup.string("Erro: Necessário preencher o campo cnpj!")
             .required("Erro: Necessário preencher o campo CNPJ!")         
             .min(14, "Erro: O cnpj deve ter no mínimo 14 caracteres!"),
-    //    Cliente: yup.string("Erro: Necessário preencher o campo nome!")
-     //       .required("Erro: Necessário preencher o campo nome do cliente!"),
-     //   Vendedor: yup.string("Erro: Necessário preencher o campo vendedor!")
-     //       .required("Erro: Necessário preencher o campo vendedor do cliente!"),                                
+        Cliente: yup.string("Erro: Necessário preencher o campo nome!")
+            .required("Erro: Necessário preencher o campo nome do cliente!"),
+        Vendedor: yup.string("Erro: Necessário preencher o campo vendedor!")
+            .required("Erro: Necessário preencher o campo vendedor do cliente!"),                                
     });
 
     try {
@@ -47,20 +47,25 @@ router.post("/add", async (req, res) => {
                 mensagem: "Erro: Não foi possivel cadastrar esse pedido de venda!"
             });
         });
-});
 
+
+    });
 
 //========================================================
 // Buscar todos os pedidos de vendas
 //========================================================
-router.get("/:page", async (req, res) => {
+router.get("/all/:page", async (req, res) => {
         const { page = 1 } = req.params;
-        const limit = 50;
+        const limit = 150;
         var lastPage = 1;
     
         const cnpj = req.query.cnpj;
         const vendedor = req.query.vendedor;
 
+        if (!vendedor){
+            console.log('Aqui')
+            return false;
+        }
         const countOrder = await Order.count(
             {
                 where: {
@@ -107,7 +112,9 @@ router.get("/:page", async (req, res) => {
             });
     });
 
-module.exports = router;
+
+
+
 //=======================================================
 // Busca pedido por id
 //=======================================================
@@ -125,6 +132,32 @@ router.get("/ID/:ID", async (req, res) => {
                 erro: true,
                 mensagem: "Erro: Nenhum pedido encontrado!"
             });
+        });
+});
+
+//=======================================================
+// Busca pedido por UUID
+//=======================================================
+router.get("/UUID", async (req, res) => {
+
+    const UUid = req.query.UUid;
+    console.log('Aqui: ' + UUid)
+        await Order.findAll({ 
+            where: {
+                UUid: UUid
+            }
+        })
+        .then((order)=>{
+         console.log(order[0].ID_Pedido)
+         return res.json({
+             ID_Pedido: order[0].ID_Pedido,
+         });
+        }).catch(()=>{
+            console.log("Erro")
+            return res.status(400).json({
+                erro: true,
+                mensagem: "Erro: Nenhum pedido encontrado!",
+            })
         });
 });
 module.exports = router;
