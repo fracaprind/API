@@ -54,7 +54,7 @@ router.get("/:page", async (req, res) => {
 //=======================================================
 router.get("/ID/:ID", async (req, res) => {
     const { ID } = req.params;
-
+    console.log(req.params)
     await Product.findByPk(ID)
         .then((product) => {
             return res.json({
@@ -65,6 +65,27 @@ router.get("/ID/:ID", async (req, res) => {
             return res.status(400).json({
                 erro: true,
                 mensagem: "Erro: Nenhum produto encontrado!"
+            });
+        });
+});
+
+//==============================================================================
+// Excluir cadastro do produto
+//==============================================================================
+router.delete("/remove/:ID_Produto", async (req, res) => {
+    const { ID_Produto } = req.params;
+    console.log('Chegou aqui')
+
+    await Product.destroy({ where: { ID_Produto } })
+        .then(() => {
+            return res.json({
+                erro: false,
+                mensagem: "produto excluido com sucesso!"
+            });
+        }).catch(() => {
+            return res.status(400).json({
+                erro: true,
+                mensagem: "Erro: Não foi possivel excluir o cadastro do produto."
             });
         });
 });

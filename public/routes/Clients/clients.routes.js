@@ -33,7 +33,7 @@ router.get("/:page", async (req, res) => {
                 Vendedor: vendedor,
                 CNPJ_Empresa:cnpj_empresa
             },
-        attributes: ['ID_Cliente', 'CNPJ_Empresa','Vendedor','Cliente','Email','Telefone'],
+  //      attributes: ['ID_Cliente', 'CNPJ_Empresa','CNPJ','NomeFantasia','Contato','Cliente','Cidade','Endereco','Numero','Bairro'],
         order: [['ID_Cliente', 'DESC']],
         offset: Number((page * limit) - limit),
         limit: limit

@@ -160,4 +160,25 @@ router.get("/UUID", async (req, res) => {
             })
         });
 });
+
+//==============================================================================
+// Excluir cadastro do pedido
+//==============================================================================
+router.delete("/remove/:ID_Pedido", async (req, res) => {
+    const { ID_Pedido } = req.params;
+
+    await Order.destroy({ where: { ID_Pedido } })
+        .then(() => {
+            return res.json({
+                erro: false,
+                mensagem: "Pedido excluido com sucesso!"
+            });
+        }).catch(() => {
+            return res.status(400).json({
+                erro: true,
+                mensagem: "Erro: Não foi possivel excluir o cadastro do pedido."
+            });
+        });
+});
+
 module.exports = router;
